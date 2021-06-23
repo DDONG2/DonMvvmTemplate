@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 
-abstract class BaseActivityWith<LAYOUT: ViewDataBinding, VM: ViewModel> : AppCompatActivity() {
-
+abstract class BaseActivity<LAYOUT: ViewDataBinding, VM: BaseViewModel> : AppCompatActivity() {
     lateinit var dataBinding: LAYOUT
 
     abstract val viewModel: VM
@@ -23,6 +21,6 @@ abstract class BaseActivityWith<LAYOUT: ViewDataBinding, VM: ViewModel> : AppCom
         dataBinding = DataBindingUtil.setContentView(this, layoutId)
 
         createObserveData()
-    }
 
+    }
 }
