@@ -5,10 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import com.example.donmvvmtemplate.BaseViewModel
 import com.example.donmvvmtemplate.model.vo.LocationResponseVO
 import com.example.donmvvmtemplate.repository.WeatherRepository
+import kotlinx.coroutines.*
 
 class MainViewModel : BaseViewModel() {
 
     private val weatherRepository: WeatherRepository
+
+
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
 
     init {
         weatherRepository = WeatherRepository()
@@ -19,9 +25,36 @@ class MainViewModel : BaseViewModel() {
     val locationWeatherLiveData: LiveData<List<LocationResponseVO>>
         get() = innerLocationLiveData
 
+    private val innerLoading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = innerLoading
+
+    private val innerErrorMessage = MutableLiveData<String>()
+    val ErrorMessage: LiveData<String>
+        get() = innerErrorMessage
+
+
     //레퍼지토리 데이터 요청
-    fun getLocationWeatherInfo() {
-        weatherRepository.requestWeatherApi().let { innerLocationLiveData::setValue }
+     fun getLocationWeatherInfo() {
+
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = weatherRepository.requestWeatherApi()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    innerLocationLiveData.postValue(response.body())
+                    innerLoading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+    }
+
+
+    private fun onError(message: String) {
+        innerErrorMessage.postValue(message)
+        innerLoading.postValue(false)
     }
 
 }
+
