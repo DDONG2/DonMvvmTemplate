@@ -11,9 +11,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.donmvvmtemplate.databinding.ActivityMainBinding
+import com.example.donmvvmtemplate.model.preference.PreferenceManager
+import com.example.donmvvmtemplate.model.preference.SharedPreferenceManager
 import com.example.donmvvmtemplate.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+
 
     //연결될 ViewModel
     override val viewModel: MainViewModel
@@ -26,6 +29,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+//        SharedPreferenceManager.getInstance(this).putString("test", "도운")
+//        var a = SharedPreferenceManager.getInstance(this).getString("test")
 
         dataBinding.lifecycleOwner = this
 
