@@ -11,7 +11,7 @@ class MainViewModel : BaseViewModel() {
 
     private val weatherRepository: WeatherRepository
 
-
+    //에러처리를 위함 https://codechacha.com/ko/android-coroutine/
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }

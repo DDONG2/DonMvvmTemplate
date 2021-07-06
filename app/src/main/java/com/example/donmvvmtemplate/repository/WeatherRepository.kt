@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class WeatherRepository : WeatherRepositoryImpl {
 
-
+    //suspend 다른 suspend 함수, 혹은 코루틴 내에서만 호출할 수 있다.
     override suspend fun requestWeatherApi() = RetrofitClient.get().searchLocation()
 
 
