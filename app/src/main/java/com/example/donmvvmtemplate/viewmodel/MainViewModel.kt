@@ -34,12 +34,19 @@ class MainViewModel : BaseViewModel() {
         get() = innerErrorMessage
 
 
+
     //레퍼지토리 데이터 요청
      fun getLocationWeatherInfo() {
 
+        /*
+        Dispatchers.Main : 안드로이드의 메인 쓰레드입니다. UI 작업은 여기서 처리되어야 합니다.
+        Dispatchers.IO : Disk 또는 네트워크에서 데이터 읽는 I/O 작업은 이 쓰레드에서 처리되어야 합니다. 예를들어, 파일을 읽거나 AAC의 Room 등도 여기에 해당됩니다.
+        Dispatchers.Default : 그외 CPU에서 처리하는 대부분의 작업들은 이 쓰레드에서 처리하면 됩니다.
+        */
+
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = weatherRepository.requestWeatherApi()
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main) { //withContext() 의 다음 코드를 수행하지 않습니다. withContext()가 수행되고 난후 다음 코드가 실행됩니다.  또한 UI 변경등은 Main쓰레드 에서 실행해야합니다.
                 if (response.isSuccessful) {
                     innerLocationLiveData.postValue(response.body())
                     innerLoading.value = false
