@@ -11,7 +11,7 @@ open class BaseViewModel : ViewModel() {
     protected var job: Job? = null
 
     override fun onCleared() {
-        job?.cancel()
         super.onCleared()
+        job?.cancel()
     }
 }
