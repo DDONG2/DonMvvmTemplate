@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DonMvvmTemplate</string>
+
+
+    <string name="local_title">Local</string>
+    <string name="today_title">Today</string>
+    <string name="tomorrow_title">Tomorrow</string>
+    <string name="icon_url">https://www.metaweather.com/static/img/weather/png/64/%s.png</string>
 </resources>

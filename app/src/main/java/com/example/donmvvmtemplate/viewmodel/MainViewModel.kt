@@ -25,9 +25,6 @@ class MainViewModel : BaseViewModel() {
     val locationWeatherLiveData: LiveData<List<LocationResponseVO>>
         get() = innerLocationLiveData
 
-    private val innerLoading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = innerLoading
 
     private val innerErrorMessage = MutableLiveData<String>()
     val ErrorMessage: LiveData<String>
@@ -49,7 +46,6 @@ class MainViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) { //withContext() 의 다음 코드를 수행하지 않습니다. withContext()가 수행되고 난후 다음 코드가 실행됩니다.  또한 UI 변경등은 Main쓰레드 에서 실행해야합니다.
                 if (response.isSuccessful) {
                     innerLocationLiveData.postValue(response.body())
-                    innerLoading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
                 }
@@ -60,7 +56,6 @@ class MainViewModel : BaseViewModel() {
 
     private fun onError(message: String) {
         innerErrorMessage.postValue(message)
-        innerLoading.postValue(false)
     }
 
 }

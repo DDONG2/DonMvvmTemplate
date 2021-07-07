@@ -73,4 +73,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
 
+    //SwipeRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+
 }
