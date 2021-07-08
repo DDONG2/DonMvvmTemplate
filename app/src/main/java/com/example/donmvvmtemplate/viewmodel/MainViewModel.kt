@@ -45,7 +45,7 @@ class MainViewModel : BaseViewModel() {
             val response = weatherRepository.requestWeatherApi()
             withContext(Dispatchers.Main) { //withContext() 의 다음 코드를 수행하지 않습니다. withContext()가 수행되고 난후 다음 코드가 실행됩니다.  또한 UI 변경등은 Main쓰레드 에서 실행해야합니다.
                 if (response.isSuccessful) {
-                    innerLocationLiveData.postValue(response.body())
+                    innerLocationLiveData.value = response.body()
                 } else {
                     onError("Error : ${response.message()} ")
                 }
