@@ -2,6 +2,7 @@ package com.example.donmvvmtemplate.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.donmvvmtemplate.BaseViewModel
 import com.example.donmvvmtemplate.model.vo.LocationResponseVO
 import com.example.donmvvmtemplate.repository.WeatherRepository
@@ -41,7 +42,7 @@ class MainViewModel : BaseViewModel() {
         Dispatchers.Default : 그외 CPU에서 처리하는 대부분의 작업들은 이 쓰레드에서 처리하면 됩니다.
         */
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+        viewModelScope.launch {
             val response = weatherRepository.requestWeatherApi()
             withContext(Dispatchers.Main) { //withContext() 의 다음 코드를 수행하지 않습니다. withContext()가 수행되고 난후 다음 코드가 실행됩니다.  또한 UI 변경등은 Main쓰레드 에서 실행해야합니다.
                 if (response.isSuccessful) {
